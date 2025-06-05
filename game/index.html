@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Choose your move</title>
+<style>
+  body {
+    margin: 0;
+    background: radial-gradient(circle at center, #000000, #111111);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    color: white;
+    text-align: center;
+  }
+  h1 {
+    margin-bottom: 20px;
+  }
+  .choices {
+    display: flex;
+    gap: 40px;
+  }
+  button {
+    background-color: #1c0909;
+    border: 5px solid #4fc3f7;
+    border-radius: 50%;
+    width: 120px;
+    height: 120px;
+    font-size: 60px;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  button:hover {
+    transform: scale(1.1);
+    border-color: #1885b8;
+  }
+</style>
+</head>
+<body>
+
+<h1>Choose your move</h1>
+<div class="choices">
+  <button onclick="choose('rock')">✊🏻</button>
+  <button onclick="choose('paper')">✋🏻</button>
+  <button onclick="choose('scissors')">✌🏻</button>
+</div>
+
+<script>
+  function choose(playerChoice) {
+// result page ke liye
+    window.open(`result.html?player=${playerChoice}`, '_blank');
+  }
+</script>
+
+</body>
+</html>
+

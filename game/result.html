@@ -1,0 +1,191 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Result</title>
+  <style>
+    body {
+      margin: 0;
+      background: radial-gradient(circle at center, #000000, #111111);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      color: white;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+
+    .hands {
+      display: flex;
+      gap: 80px;
+      font-size: 100px;
+      margin-bottom: 40px;
+    }
+
+    .hand {
+      display: inline-block;
+      animation: shake 0.5s infinite alternate;
+    }
+
+    .static {
+      animation: none !important;
+    }
+
+    #result-text {
+      font-size: 24px;
+      margin-top: 20px;
+    }
+
+    @keyframes shake {
+      0% { transform: rotate(0deg) translateX(0); }
+      50% { transform: rotate(15deg) translateX(5px); }
+      100% { transform: rotate(-15deg) translateX(-5px); }
+    }
+
+    .back-btn {
+      margin-top: 40px;
+      padding: 12px 30px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 30px;
+      background-color: #4fc3f7;
+      color: black;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-btn:hover {
+      background-color: #2e95c5;
+    }
+
+    .home-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  border: none;
+  border-radius: 20px;
+  background-color: #4fc3f7;
+  color: black;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.home-btn:hover {
+  background-color:#2e95c5;
+}
+
+    
+  </style>
+</head>
+<body>
+
+  <h1>🤜🤛 Revealing the Result...</h1>
+
+  <div class="hands">
+    <div id="player-hand" class="hand">✊🏻</div>
+    <div id="computer-hand" class="hand">✊🏻</div>
+  </div>
+
+  <div id="result-text">Shaking hands...</div>
+
+  <button class="back-btn" onclick="goBack()">🔁 Play Again</button>
+
+<div id="scoreboard" style="margin-top: 20px; font-size: 18px;">
+  👤 You: <span id="player-score">0</span> |
+  🤖 Computer: <span id="computer-score">0</span>
+</div>
+<!-- Reset -->
+<button class="back-btn" onclick="resetScore()">🔄 Reset Score</button>
+<!-- back home -->
+<button class="home-btn" onclick="goHome()">🏠 Home</button>
+
+
+  <script>
+    
+       
+
+
+
+  function goBack() {
+    window.location.href = 'index.html';
+  }
+
+  const urlParams = new URLSearchParams(window.location.search);
+  const playerChoice = urlParams.get('player');
+
+  const emojis = { rock: '✊🏻', paper: '✋🏻', scissors: '✌🏻' };
+  const choices = ['rock', 'paper', 'scissors'];
+  const computerChoice = choices[Math.floor(Math.random() * 3)];
+
+  const playerHand = document.getElementById('player-hand');
+  const computerHand = document.getElementById('computer-hand');
+  const resultText = document.getElementById('result-text');
+
+  let winner = "";
+// shaking
+  setTimeout(() => {
+    playerHand.classList.add('static');
+    computerHand.classList.add('static');
+
+    playerHand.textContent = emojis[playerChoice] || '❓';
+    computerHand.textContent = emojis[computerChoice];
+// main
+    if (playerChoice === computerChoice) {
+      resultText.textContent = `🤝 It's a tie! You both chose ${emojis[playerChoice]}`;
+      winner = "tie";
+    } else if (
+      (playerChoice === 'rock' && computerChoice === 'scissors') ||
+      (playerChoice === 'paper' && computerChoice === 'rock') ||
+      (playerChoice === 'scissors' && computerChoice === 'paper')
+    ) {
+      resultText.textContent = `✅ You win! ${emojis[playerChoice]} beats ${emojis[computerChoice]}`;
+      winner = "player";
+    } else {
+      resultText.textContent = `❌ You lose! ${emojis[computerChoice]} beats ${emojis[playerChoice]}`;
+      winner = "computer";
+    }
+// score
+    updateScore(winner);
+    showScore(); // 
+  }, 2000);
+  function updateScore(winner) {
+    if (winner === "player") {
+      localStorage.setItem("playerScore", getScore("playerScore") + 1);
+    } else if (winner === "computer") {
+      localStorage.setItem("computerScore", getScore("computerScore") + 1);
+    }
+  }
+  function getScore(key) {
+    return parseInt(localStorage.getItem(key)) || 0;
+  }
+  function showScore() {
+    document.getElementById("player-score").textContent = getScore("playerScore");
+    document.getElementById("computer-score").textContent = getScore("computerScore");
+  }
+  function resetScore() {
+    localStorage.setItem("playerScore", 0);
+    localStorage.setItem("computerScore", 0);
+    showScore(); // 
+  }
+ showScore();
+// home
+  function goHome() {
+  window.location.href = 'home.html'; 
+}
+
+</script>
+
+    
+</body>
+</html>
